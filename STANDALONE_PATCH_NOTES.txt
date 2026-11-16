@@ -1,0 +1,9 @@
+PHARMACIST STANDALONE AUTH PATCH
+- Removed HospitalId requirement from PharmacyAuthService and assignment-status endpoint.
+- Branch assignment validated against PharmacyId.
+- Permission retrieval no longer filtered by HospitalId.
+- Removed CMS Integration from default permission module lists.
+- Removed HospitalId and CMS claims from JWT helper.
+- Default permission flags remain TRUE.
+
+IMPORTANT: This is a focused compatibility patch, NOT full removal of legacy HospitalId/CMS models, controllers, DTOs, EF mappings, or database columns. Existing historical migrations remain. No migration added. Not compiled: dotnet SDK unavailable. Frontend not included.

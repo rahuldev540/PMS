@@ -1,0 +1,1 @@
+This is the previously supplied PARTIAL, UNVERIFIED PMS patch, repackaged without nested parent folders. CMS/HospitalId removal is NOT complete. Open Pharmacy.sln in this folder.

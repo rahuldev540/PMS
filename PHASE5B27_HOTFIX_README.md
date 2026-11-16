@@ -1,0 +1,1 @@
+Phase 5B27 hotfix: Restores BuildAuditLogQuery, ValidateAuditFilters, and the active pharmacy-wise reports/revenue endpoint accidentally removed by 5B27. Disabled legacy hospital revenue methods remain removed. No database migration. Test audit-logs, audit-logs/summary, and reports/revenue. ZIP verified; .NET build must be run locally.

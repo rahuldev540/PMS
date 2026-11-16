@@ -1,0 +1,77 @@
+[
+  {
+    "file": "Models/Patient.cs",
+    "line": 65,
+    "source": "public int? HospitalId"
+  },
+  {
+    "file": "Models/Prescription.cs",
+    "line": 24,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/Appointment.cs",
+    "line": 114,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/Branch.cs",
+    "line": 38,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/RealtimePharmacyModels.cs",
+    "line": 14,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/RealtimePharmacyModels.cs",
+    "line": 40,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/RealtimePharmacyModels.cs",
+    "line": 70,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/PharmacyExtensions.cs",
+    "line": 87,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/PharmacyExtensions.cs",
+    "line": 102,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/PharmacyExtensions.cs",
+    "line": 123,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/PharmacyExtensions.cs",
+    "line": 141,
+    "source": "public int? HospitalId { get; set; }"
+  },
+  {
+    "file": "Models/Doctor.cs",
+    "line": 72,
+    "source": "public int? HospitalId"
+  },
+  {
+    "file": "Data/AppDbContext.cs",
+    "line": 228,
+    "source": ".HasForeignKey(x => x.HospitalId)"
+  },
+  {
+    "file": "Data/AppDbContext.cs",
+    "line": 266,
+    "source": ".HasForeignKey(x => x.HospitalId)"
+  },
+  {
+    "file": "Data/AppDbContext.cs",
+    "line": 611,
+    "source": ".HasForeignKey(x => x.HospitalId)"
+  }
+]

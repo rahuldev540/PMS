@@ -1,0 +1,120 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<OutputType>Exe</OutputType>
+		<AssemblyName>PharmacyOnly.Api</AssemblyName>
+		<RootNamespace>AuthDemo</RootNamespace>
+
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<GenerateDependencyFile>true</GenerateDependencyFile>
+
+		<UserSecretsId>b3db3a7f-d44a-4083-b562-b61d092b5bd6</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+
+		<!-- =====================================================
+         ENTITY FRAMEWORK CORE
+         ===================================================== -->
+
+		<PackageReference
+		  Include="Microsoft.EntityFrameworkCore"
+		  Version="8.0.26" />
+
+		<PackageReference
+		  Include="Microsoft.EntityFrameworkCore.SqlServer"
+		  Version="8.0.26" />
+
+		<PackageReference
+		  Include="Microsoft.EntityFrameworkCore.Design"
+		  Version="8.0.26">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>
+				runtime;
+				build;
+				native;
+				contentfiles;
+				analyzers;
+				buildtransitive
+			</IncludeAssets>
+		</PackageReference>
+
+		<PackageReference
+		  Include="Microsoft.EntityFrameworkCore.Tools"
+		  Version="8.0.26">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>
+				runtime;
+				build;
+				native;
+				contentfiles;
+				analyzers;
+				buildtransitive
+			</IncludeAssets>
+		</PackageReference>
+
+
+		<!-- =====================================================
+         AUTHENTICATION
+         ===================================================== -->
+
+		<PackageReference
+		  Include="Microsoft.AspNetCore.Authentication.JwtBearer"
+		  Version="8.0.0" />
+
+		<PackageReference
+		  Include="BCrypt.Net-Next"
+		  Version="4.0.3" />
+
+
+		<!-- =====================================================
+         EXCEL
+         ===================================================== -->
+
+		<PackageReference
+		  Include="ClosedXML"
+		  Version="0.105.1" />
+
+
+		<!-- =====================================================
+         EMAIL
+         ===================================================== -->
+
+		<PackageReference
+		  Include="MailKit"
+		  Version="4.16.0" />
+
+
+		<!-- =====================================================
+         PDF
+         ===================================================== -->
+
+		<PackageReference
+		  Include="QuestPDF"
+		  Version="2026.7.3" />
+
+
+		<!-- =====================================================
+         SWAGGER
+         ===================================================== -->
+
+		<PackageReference
+		  Include="Swashbuckle.AspNetCore"
+		  Version="6.6.2" />
+
+	</ItemGroup>
+
+
+	<!-- =====================================================
+       STATIC FILE FOLDERS
+       ===================================================== -->
+
+	<ItemGroup>
+		<Folder Include="wwwroot\images\Doctors\" />
+	</ItemGroup>
+
+</Project>
