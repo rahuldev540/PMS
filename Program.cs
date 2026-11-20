@@ -1,4 +1,4 @@
-using System.Diagnostics;
+    using System.Diagnostics;
 
 using AuthDemo.Data;
 using AuthDemo.Helpers;
@@ -368,6 +368,21 @@ builder.Services.AddAuthorization();
 
 var app =
     builder.Build();
+
+// =====================================================
+// AUTOMATIC DATABASE MIGRATIONS
+// =====================================================
+
+// Apply pending migrations automatically in Development.
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+
+    var db = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+
+    await db.Database.MigrateAsync();
+}
 
 // =====================================================
 // SEEDERS

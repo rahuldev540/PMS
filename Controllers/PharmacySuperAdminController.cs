@@ -198,12 +198,18 @@ public class PharmacySuperAdminController : ControllerBase
         var rows = await query
             .OrderBy(x => x.PharmacyId)
             .ThenBy(x => x.Name)
+            .ThenBy(x => x.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(x => new
             {
                 x.Id,
                 x.PharmacyId,
+                BranchNumber = _db.PharmacyBranchIdentities
+                    .Where(identity => identity.ExistingBranchId == x.Id &&
+                                       identity.PharmacyId == x.PharmacyId)
+                    .Select(identity => (int?)identity.BranchId)
+                    .FirstOrDefault(),
                 PharmacyName = x.Pharmacy != null
                     ? x.Pharmacy.Name
                     : string.Empty,
@@ -225,6 +231,7 @@ public class PharmacySuperAdminController : ControllerBase
         {
             x.Id,
             x.PharmacyId,
+            x.BranchNumber,
             x.PharmacyName,
             x.BranchName,
 
@@ -269,54 +276,12 @@ public class PharmacySuperAdminController : ControllerBase
 
     // Super Admin cannot create branches. Pharmacy Admin owns branch creation.
 
-    [HttpGet("branches/{id:int}")]
-    public async Task<IActionResult> GetBranch(int id)
-    {
-        var branch = await _db.Branches
-            .AsNoTracking()
-            .Where(x => x.Id == id && x.PharmacyId.HasValue)
-            .Select(x => new
-            {
-                x.Id,
-                x.PharmacyId,
-                PharmacyName = x.Pharmacy != null
-                    ? x.Pharmacy.Name
-                    : string.Empty,
-                BranchName = x.Name,
-                x.Phone,
-                x.Email,
-                x.Address,
-                x.City,
-                x.State,
-                x.District,
-                x.Country,
-                x.PostalCode,
-                x.IsActive,
-                x.CreatedAt
-            })
-            .FirstOrDefaultAsync();
-
-        if (branch == null)
-            return NotFound(new
-            {
-                Success = false,
-                Message = "Pharmacy branch was not found."
-            });
-
-        return Ok(new
-        {
-            Success = true,
-            Branch = branch
-        });
-    }
-
-
     // ============================================================
     // UPDATE STANDALONE PHARMACY BRANCH
     // PUT /api/pharmacy-super-admin/branches/{id}
     // ============================================================
 
-    
+
 
 
     // ============================================================
@@ -324,7 +289,7 @@ public class PharmacySuperAdminController : ControllerBase
     // PATCH /api/pharmacy-super-admin/branches/{id}/status
     // ============================================================
 
-    
+
 
 
     // ============================================================
@@ -332,7 +297,7 @@ public class PharmacySuperAdminController : ControllerBase
     // DELETE /api/pharmacy-super-admin/branches/{id}
     // ============================================================
 
-    
+
 
 
 
@@ -345,14 +310,14 @@ public class PharmacySuperAdminController : ControllerBase
     // permission problem shown in the frontend.
     // ============================================================
 
-    
+
 
     // ============================================================
     // MEDICINE STATUS
     // PATCH /api/pharmacy-super-admin/medicines/{id}/status
     // ============================================================
 
-    
+
 
     // ============================================================
     // PHARMACY + BRANCH OVERVIEW
@@ -477,34 +442,34 @@ public class PharmacySuperAdminController : ControllerBase
         // Permissions are user-specific in this PMS.
         // No permission role/template is required for authorization.
         var temporaryPassword = PasswordGenerator.Generate(16);
-        
-var admin = new User
-{
-    Name = name,
-    Email = email,
-    MobileNumber = mobile,
 
-    // Pharmacy Admin personal address
-    Address = dto.Address?.Trim(),
-    City = dto.City?.Trim(),
-    State = dto.State?.Trim(),
-    Country = dto.Country?.Trim(),
-    PostalCode = dto.PostalCode?.Trim(),
+        var admin = new User
+        {
+            Name = name,
+            Email = email,
+            MobileNumber = mobile,
 
-    PasswordHash = BCrypt.Net.BCrypt.HashPassword(temporaryPassword),
-    Role = "PharmacyAdmin",
+            // Pharmacy Admin personal address
+            Address = dto.Address?.Trim(),
+            City = dto.City?.Trim(),
+            State = dto.State?.Trim(),
+            Country = dto.Country?.Trim(),
+            PostalCode = dto.PostalCode?.Trim(),
 
-    // Pharmacy will be assigned separately
-    PharmacyId = null,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(temporaryPassword),
+            Role = "PharmacyAdmin",
 
-    BranchId = null,
+            // Pharmacy will be assigned separately
+            PharmacyId = null,
 
-    AccountStatus = "Pending",
-    CreatedByUserId = CurrentUserId(),
-    IsActive = true,
-    MustChangePassword = true,
-    CreatedAt = DateTime.UtcNow
-};
+            BranchId = null,
+
+            AccountStatus = "Pending",
+            CreatedByUserId = CurrentUserId(),
+            IsActive = true,
+            MustChangePassword = true,
+            CreatedAt = DateTime.UtcNow
+        };
 
         _db.Users.Add(admin);
         AddAudit("Create Pharmacy Admin", $"Unassigned Pharmacy Admin '{email}' created.");
@@ -2264,8 +2229,12 @@ var admin = new User
             success = true,
             startDate = from,
             endDate = through,
-            summary = new { totalRevenue = rows.Sum(x => x.Revenue), totalPharmacies = rows.Count,
-                            pharmaciesWithRevenue = rows.Count(x => x.PaidBillCount > 0) },
+            summary = new
+            {
+                totalRevenue = rows.Sum(x => x.Revenue),
+                totalPharmacies = rows.Count,
+                pharmaciesWithRevenue = rows.Count(x => x.PaidBillCount > 0)
+            },
             pharmacyRevenue = rows
         });
     }
